@@ -20,7 +20,7 @@ macro_rules! define_builtin_vars {
                     run_while_expr: SimplExpr::Literal(DynVal::from(true)),
                     command: VarSource::Function($fun),
                     initial_value: None,
-                    interval: std::time::Duration::from_secs($interval),
+                    interval: Some(std::time::Duration::from_secs($interval)),
                     name_span: eww_shared_util::span::Span::DUMMY,
                 })
                 ),*

@@ -165,15 +165,17 @@ impl PollVarHandler {
                 crate::error_handling_ctx::print_error(err);
             }
 
-            crate::loop_select_exiting! {
-                _ = cancellation_token.cancelled() => break,
-                _ = tokio::time::sleep(var.interval) => {
-                    let result: Result<_> = try {
-                        evt_send.send(app::DaemonCommand::UpdateVars(vec![(var.name.clone(), run_poll_once(&var)?)]))?;
-                    };
+            if let Some(interval) = var.interval {
+                crate::loop_select_exiting! {
+                    _ = cancellation_token.cancelled() => break,
+                    _ = tokio::time::sleep(interval) => {
+                        let result: Result<_> = try {
+                            evt_send.send(app::DaemonCommand::UpdateVars(vec![(var.name.clone(), run_poll_once(&var)?)]))?;
+                        };
 
-                    if let Err(err) = result {
-                        crate::error_handling_ctx::print_error(err);
+                        if let Err(err) = result {
+                            crate::error_handling_ctx::print_error(err);
+                        }
                     }
                 }
             }

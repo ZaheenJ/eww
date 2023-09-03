@@ -21,6 +21,7 @@ All notable changes to eww will be listed here, starting at changes since versio
 - Add `substring` function to simplexpr
 - Add `--duration` flag to `eww open`
 - Add `force-poll` command (By: ZaheenJ)
+- Add defpoll interval `once` that only polls at start (By: ZaheenJ)
 
 ## [0.4.0] (04.09.2022)
 
